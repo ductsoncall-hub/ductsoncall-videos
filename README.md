@@ -9,8 +9,8 @@ built for [ductsoncall.com](https://ductsoncall.com) (NADCA-certified air duct &
 
 - `index.html`, `style.css`, `app.js` — the site. No build step, no framework, no tracking.
 - `data/videos.json` — every video (title, description, date, type, duration, views, topics, playlist).
-- `scripts/update_from_rss.py` — pulls new uploads from the channel's public RSS feed and merges them in.
-- `.github/workflows/update-archive.yml` — runs the updater every 3 hours and commits any changes, so new
+- `scripts/update_from_rss.py` — pulls new uploads from the channel's public RSS feed, then sweeps the channel's Videos and Shorts tabs for anything the 15-item feed missed, and merges them in.
+- `.github/workflows/update-archive.yml` — runs the updater every 3 days and commits any changes, so new
   videos appear on the site automatically.
 
 ## Features

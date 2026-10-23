@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Pull the latest uploads from the channel's public RSS feed (no API key needed)
-and merge them into data/videos.json. Runs on a schedule via GitHub Actions.
+"""Pull new uploads into data/videos.json. Runs on a schedule via GitHub Actions.
 
-The feed only returns the 15 most recent uploads, so the workflow runs several
-times a day to keep up with the channel's posting rate.
+Step 1: the channel's public RSS feed (no API key) gives full titles, descriptions
+        and view counts for the 15 most recent uploads.
+Step 2: a fallback sweep of the channel's Videos and Shorts tabs (via yt-dlp, if
+        installed) catches anything older than the feed window that is still
+        missing from the archive, so a multi-day schedule never drops a video.
 """
 import json
 import re
+import shutil
+import subprocess
 import sys
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -70,6 +74,49 @@ def is_short(video_id: str) -> bool:
         return False
 
 
+def sweep_channel_tabs(by_id: dict) -> bool:
+    """Add any video listed on the channel's Videos/Shorts tabs that the feed missed."""
+    if not shutil.which("yt-dlp"):
+        print("yt-dlp not installed; skipping channel sweep.")
+        return False
+    changed = False
+    now = datetime.now(timezone.utc)
+    for tab, kind in (("videos", "video"), ("shorts", "short")):
+        url = f"https://www.youtube.com/channel/{CHANNEL_ID}/{tab}"
+        try:
+            out = subprocess.run(
+                ["yt-dlp", "--flat-playlist", "-J", "--no-warnings",
+                 "--extractor-args", "youtubetab:approximate_date", url],
+                capture_output=True, text=True, timeout=180, check=True).stdout
+            entries = json.loads(out).get("entries") or []
+        except Exception as exc:  # network hiccup or bot wall: just skip the sweep
+            print(f"Channel sweep of /{tab} failed: {exc}")
+            continue
+        for e in entries:
+            vid = e.get("id")
+            if not vid or vid in by_id:
+                continue
+            ts = e.get("timestamp")
+            when = datetime.fromtimestamp(ts, tz=timezone.utc) if ts else now
+            title = e.get("title") or vid
+            by_id[vid] = {
+                "id": vid,
+                "title": title,
+                "kind": kind,
+                "duration": e.get("duration"),
+                "views": e.get("view_count"),
+                "published": when.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "description": "",
+                "playlists": [],
+                "topics": topics_for(title, ""),
+                "year": when.strftime("%Y"),
+                "url": f"https://www.youtube.com/{'shorts/' if kind == 'short' else 'watch?v='}{vid}",
+            }
+            changed = True
+            print(f"+ {kind:5s} {when.strftime('%Y-%m-%d')} {title}  (from channel sweep)")
+    return changed
+
+
 def main() -> int:
     data = json.loads(DATA.read_text(encoding="utf-8"))
     by_id = {v["id"]: v for v in data["videos"]}
@@ -116,6 +163,9 @@ def main() -> int:
         by_id[vid] = v
         changed = True
         print(f"+ {v['kind']:5s} {v['published'][:10]} {title}")
+
+    if sweep_channel_tabs(by_id):
+        changed = True
 
     if not changed:
         print("No changes.")
