@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ducts On Call Video Archive — Air Duct Cleaning &amp; Indoor Air Quality, Madison WI</title>
+  <meta name="description" content="Search every video from Ducts On Call, Madison's NADCA-certified air duct and dryer vent cleaning service: homeowner guides, indoor air hazard explainers, and footage from real jobs since 2018." />
+  <meta property="og:title" content="Ducts On Call Video Archive" />
+  <meta property="og:description" content="Every Ducts On Call video, searchable: duct cleaning, dryer vents, mold, radon, filtration and more. Madison, WI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ytimg.com/vi/fvYT0PLQpus/maxresdefault.jpg" />
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./base.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Ducts On Call",
+    "url": "https://ductsoncall.com",
+    "telephone": "+1-608-906-1008",
+    "address": {"@type": "PostalAddress", "streetAddress": "817 S. Main St.", "addressLocality": "Poynette", "addressRegion": "WI", "postalCode": "53955", "addressCountry": "US"},
+    "areaServed": "Madison, Wisconsin",
+    "sameAs": ["https://www.youtube.com/@ductsoncall3320"]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#archive">Skip to the archive</a>
+
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="wordmark" href="./index.html">
+        <span class="wordmark-main">Ducts On Call</span>
+        <span class="wordmark-sub">Video Archive</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#archive">Archive</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-cta" href="tel:+16089061008">(608) 906-1008</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Madison, Wisconsin · NADCA-certified · Since 2018</p>
+          <h1>Every Ducts On Call video, in one searchable place.</h1>
+          <p class="hero-lede">Homeowner guides, indoor-air science explainers, and footage from real duct and dryer-vent jobs. Type a question, pick a topic, and watch right here.</p>
+          <form class="hero-search" role="search" id="hero-search-form">
+            <label class="sr-only" for="hero-search">Search videos</label>
+            <input id="hero-search" type="search" placeholder="Try “mold”, “dryer vent”, “how often”…" autocomplete="off" />
+            <button type="submit" class="btn btn-accent">Search</button>
+          </form>
+          <p class="hero-hint">Press <kbd>/</kbd> anywhere to jump to search · <button type="button" class="link-btn" id="btn-random">Surprise me</button></p>
+        </div>
+        <dl class="hero-stats" id="hero-stats">
+          <div><dt>Videos in archive</dt><dd data-count="videos">—</dd></div>
+          <div><dt>Full-length videos</dt><dd data-count="long">—</dd></div>
+          <div><dt>Shorts</dt><dd data-count="shorts">—</dd></div>
+          <div><dt>Channel views</dt><dd data-count="views">—</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="archive" id="archive" aria-labelledby="archive-title">
+      <div class="toolbar" id="toolbar">
+        <div class="container toolbar-inner">
+          <div class="toolbar-search">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <label class="sr-only" for="search">Search videos</label>
+            <input id="search" type="search" placeholder="Search titles and descriptions" autocomplete="off" />
+            <button type="button" class="clear-btn" id="btn-clear-search" aria-label="Clear search" hidden>×</button>
+          </div>
+          <div class="toolbar-controls">
+            <div class="segmented" role="group" aria-label="Video type">
+              <button type="button" data-kind="all" class="is-active">All</button>
+              <button type="button" data-kind="video">Videos</button>
+              <button type="button" data-kind="short">Shorts</button>
+            </div>
+            <label class="select-wrap">
+              <span class="sr-only">Year</span>
+              <select id="year-select"><option value="">All years</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Sort</span>
+              <select id="sort-select">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="views">Most viewed</option>
+                <option value="title">Title A–Z</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="container">
+          <div class="topic-row" id="topic-row" role="group" aria-label="Filter by topic"></div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="results-head">
+          <h2 id="archive-title" class="results-count" aria-live="polite">Loading archive…</h2>
+          <button type="button" class="link-btn" id="btn-reset" hidden>Reset filters</button>
+        </div>
+        <div class="grid" id="grid" aria-busy="true">
+          <!-- skeletons -->
+          <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
+          <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
+        </div>
+        <div class="empty" id="empty" hidden>
+          <h3>No videos match that.</h3>
+          <p>Try a broader word like “duct”, “mold” or “filter”, or clear the filters.</p>
+          <button type="button" class="btn btn-ghost" id="btn-empty-reset">Clear everything</button>
+        </div>
+        <div class="load-more-wrap">
+          <button type="button" class="btn btn-ghost" id="btn-more" hidden>Show more videos</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-text">
+          <p class="eyebrow">About the channel</p>
+          <h2 id="about-title">The archive of a working duct-cleaning crew.</h2>
+          <p>Ducts On Call is a licensed, insured, NADCA-certified air duct and dryer vent cleaning company serving Madison and the surrounding area. The channel started in 2018 with raw footage from real jobs and grew into a library of homeowner guides and short, source-cited explainers about the things that affect the air inside your home: mold, dust, humidity, radon, carbon monoxide, filtration and more.</p>
+          <p>Every video here links back to YouTube. Search by what you are worried about, filter by topic, or browse the oldest clips to see the work up close.</p>
+          <div class="about-links">
+            <a class="btn btn-accent" href="https://www.youtube.com/@ductsoncall3320?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
+            <a class="btn btn-ghost" href="https://ductsoncall.com" target="_blank" rel="noopener noreferrer">Visit ductsoncall.com</a>
+          </div>
+        </div>
+        <ul class="process" role="list">
+          <li><strong>5,000 CFM negative-air vacuum</strong><span>Two 2,500 CFM motors pull debris out while HEPA filters clean the air down to 0.3 µm.</span></li>
+          <li><strong>Every vent, brushed and degreased</strong><span>Registers, grilles and diffusers cleaned with an environmentally safe degreaser; openings sealed for maximum suction.</span></li>
+          <li><strong>180 PSI air wash</strong><span>Fresh outside air scours the whole duct run after brushing to knock down odors.</span></li>
+          <li><strong>Your home protected</strong><span>Shoe covers, floor coverings and corner guards on every job.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow">Free inspections</p>
+          <h2 id="contact-title">Talk to Nick directly.</h2>
+          <p>Text or call for air duct cleaning, dryer vent cleaning, odor elimination or bio-growth treatment anywhere in the greater Madison area.</p>
+          <a class="phone" href="tel:+16089061008">(608) 906-1008</a>
+        </div>
+        <address class="contact-card">
+          <strong>Ducts On Call Inc.</strong>
+          817 S. Main St.<br />Poynette, WI 53955<br />
+          <span class="muted">Open daily 7:00 am – 7:00 pm</span>
+          <a href="https://ductsoncall.com" target="_blank" rel="noopener noreferrer">ductsoncall.com</a>
+        </address>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>© <span id="year"></span> Ducts On Call Inc. · Madison, Wisconsin</p>
+      <p class="muted">Archive updated <span id="updated">—</span> · <a href="https://www.youtube.com/@ductsoncall3320" target="_blank" rel="noopener noreferrer">YouTube</a> · <a href="https://ductsoncall-hub.github.io/" target="_blank" rel="noopener noreferrer">Indoor Air Science Notes</a></p>
+    </div>
+  </footer>
+
+  <!-- Video dialog -->
+  <dialog class="player" id="player" aria-labelledby="player-title">
+    <div class="player-inner">
+      <button type="button" class="player-close" id="player-close" aria-label="Close video">×</button>
+      <div class="player-media" id="player-media"></div>
+      <div class="player-body">
+        <p class="player-meta" id="player-meta"></p>
+        <h2 class="player-title" id="player-title"></h2>
+        <div class="player-topics" id="player-topics"></div>
+        <div class="player-actions">
+          <a class="btn btn-accent" id="player-yt" href="#" target="_blank" rel="noopener noreferrer">Open on YouTube</a>
+          <button type="button" class="btn btn-ghost" id="player-share">Copy link to this video</button>
+          <span class="copied" id="copied" aria-live="polite"></span>
+        </div>
+        <div class="player-desc" id="player-desc"></div>
+        <nav class="player-nav" aria-label="Browse videos">
+          <button type="button" class="link-btn" id="player-prev">← Previous</button>
+          <button type="button" class="link-btn" id="player-next">Next →</button>
+        </nav>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
