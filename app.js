@@ -228,6 +228,17 @@
       state.topic = chip.dataset.topic === state.topic ? '' : chip.dataset.topic; state.shown = PAGE; apply();
       chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
+    const wrap = $('#topic-wrap');
+    const updateTopicEdges = () => {
+      const r = els.topicRow;
+      wrap.classList.toggle('at-start', r.scrollLeft <= 2);
+      wrap.classList.toggle('at-end', r.scrollLeft + r.clientWidth >= r.scrollWidth - 2);
+    };
+    els.topicRow.addEventListener('scroll', updateTopicEdges, { passive: true });
+    window.addEventListener('resize', updateTopicEdges);
+    $('#topic-left').addEventListener('click', () => els.topicRow.scrollBy({ left: -els.topicRow.clientWidth * 0.7 }));
+    $('#topic-right').addEventListener('click', () => els.topicRow.scrollBy({ left: els.topicRow.clientWidth * 0.7 }));
+    requestAnimationFrame(updateTopicEdges);
     const resetAll = () => { Object.assign(state, { q: '', kind: 'all', year: '', topic: '', sort: 'newest', shown: PAGE }); els.heroSearch.value = ''; apply(); };
     els.reset.addEventListener('click', resetAll);
     els.emptyReset.addEventListener('click', resetAll);
