@@ -12,6 +12,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -121,11 +122,21 @@ def main() -> int:
     data = json.loads(DATA.read_text(encoding="utf-8"))
     by_id = {v["id"]: v for v in data["videos"]}
 
-    with urllib.request.urlopen(FEED_URL, timeout=30) as resp:
-        root = ET.fromstring(resp.read())
+    entries = []
+    for attempt in range(1, 5):  # YouTube occasionally answers 5xx; retry, then fall back to the sweep
+        try:
+            with urllib.request.urlopen(FEED_URL, timeout=30) as resp:
+                entries = ET.fromstring(resp.read()).findall("a:entry", NS)
+            break
+        except Exception as exc:
+            print(f"Feed fetch attempt {attempt} failed: {exc}")
+            if attempt < 4:
+                time.sleep(20 * attempt)
+    if not entries:
+        print("Feed unavailable; relying on the channel sweep for this run.")
 
     changed = False
-    for entry in root.findall("a:entry", NS):
+    for entry in entries:
         vid = entry.findtext("yt:videoId", namespaces=NS)
         title = entry.findtext("a:title", namespaces=NS) or ""
         published = entry.findtext("a:published", namespaces=NS) or ""
